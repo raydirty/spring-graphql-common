@@ -54,7 +54,7 @@ class RxExecution {
 
     public ExecutionResult execute(GraphQLSchema graphQLSchema, Object root, Document document, String operationName, Map<String, Object> args) {
         ExecutionContextBuilder executionContextBuilder = new ExecutionContextBuilder(new ValuesResolver());
-        ExecutionContext executionContext = executionContextBuilder.build(graphQLSchema, strategy, root, document, operationName, args);
+        ExecutionContext executionContext = executionContextBuilder.build(graphQLSchema, strategy, new SimpleExecutionStrategy(), root, document, operationName, args);
         return executeOperation(executionContext, root, executionContext.getOperationDefinition());
     }
 
@@ -81,7 +81,7 @@ class RxExecution {
 
         if (operationDefinition.getOperation() == OperationDefinition.Operation.MUTATION) {
             return new GraphQLDefaultRxExecutionStrategy(graphQLSchemaHolder, maxQueryDepth, maxQueryComplexity)
-                                                      .execute(executionContext, operationRootType, root, fields);
+                    .execute(executionContext, operationRootType, root, fields);
         } else {
             return strategy.execute(executionContext, operationRootType, root, fields);
         }

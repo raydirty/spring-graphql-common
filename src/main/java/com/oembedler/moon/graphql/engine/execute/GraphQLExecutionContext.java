@@ -39,6 +39,8 @@ class GraphQLExecutionContext extends ExecutionContext {
     private final int currentDepth;
 
     public GraphQLExecutionContext(ExecutionContext delegate, int currentDepth) {
+        super(delegate.getGraphQLSchema(), delegate.getQueryStrategy(), delegate.getMutationStrategy(),
+                delegate.getFragmentsByName(), delegate.getOperationDefinition(), delegate.getVariables(), delegate.getRoot());
         Assert.notNull(delegate, "ExecutionContext can not be null");
         Assert.notNull(delegate, "GraphQLSchemaHolder can not be null");
         this.delegate = delegate;
@@ -53,40 +55,24 @@ class GraphQLExecutionContext extends ExecutionContext {
         return delegate.getGraphQLSchema();
     }
 
-    public void setGraphQLSchema(GraphQLSchema graphQLSchema) {
-        delegate.setGraphQLSchema(graphQLSchema);
-    }
-
     public Map<String, FragmentDefinition> getFragmentsByName() {
         return delegate.getFragmentsByName();
-    }
-
-    public void setFragmentsByName(Map<String, FragmentDefinition> fragmentsByName) {
-        delegate.setFragmentsByName(fragmentsByName);
     }
 
     public OperationDefinition getOperationDefinition() {
         return delegate.getOperationDefinition();
     }
 
-    public void setOperationDefinition(OperationDefinition operationDefinition) {
-        delegate.setOperationDefinition(operationDefinition);
-    }
-
     public Map<String, Object> getVariables() {
         return delegate.getVariables();
-    }
-
-    public void setVariables(Map<String, Object> variables) {
-        delegate.setVariables(variables);
     }
 
     public Object getRoot() {
         return delegate.getRoot();
     }
 
-    public void setRoot(Object root) {
-        delegate.setRoot(root);
+    public ExecutionStrategy getQueryStrategy() {
+        return delegate.getQueryStrategy();
     }
 
     public FragmentDefinition getFragment(String name) {
@@ -99,14 +85,6 @@ class GraphQLExecutionContext extends ExecutionContext {
 
     public List<GraphQLError> getErrors() {
         return delegate.getErrors();
-    }
-
-    public ExecutionStrategy getExecutionStrategy() {
-        return delegate.getExecutionStrategy();
-    }
-
-    public void setExecutionStrategy(ExecutionStrategy executionStrategy) {
-        delegate.setExecutionStrategy(executionStrategy);
     }
 
     public ExecutionContext getDelegate() {

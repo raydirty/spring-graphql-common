@@ -57,6 +57,7 @@ public class GenericComputationDelaySchemaParserTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GenericComputationDelaySchemaParserTest.class);
 
+
     private ObjectMapper mapper = new ObjectMapper();
 
     @Configuration

@@ -20,7 +20,8 @@
 package com.oembedler.moon.graphql.test.todoschema.objecttype;
 
 import com.oembedler.moon.graphql.engine.relay.RelayNode;
-import com.oembedler.moon.graphql.engine.stereotype.*;
+import com.oembedler.moon.graphql.engine.stereotype.GraphQLField;
+import com.oembedler.moon.graphql.engine.stereotype.GraphQLIgnore;
 
 import java.util.Date;
 
@@ -35,9 +36,7 @@ public class BaseObjectType implements RelayNode {
     @GraphQLField
     private Date updated;
 
-    @GraphQLID("id")
-    @GraphQLNonNull
-    @GraphQLDescription("Global object unique identifier")
+
     public String getId(RelayNode relayNode) {
         BaseObjectType baseObjectType = (BaseObjectType) relayNode;
         return baseObjectType.id;

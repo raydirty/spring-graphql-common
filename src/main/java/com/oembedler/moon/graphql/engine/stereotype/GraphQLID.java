@@ -23,6 +23,7 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
+@Inherited
 @Documented
 public @interface GraphQLID {
     String value() default "";

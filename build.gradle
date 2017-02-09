@@ -73,6 +73,7 @@ jar {
 dependencies {
     compile "org.springframework:spring-core:$LIB_SPRING_FRAMEWORK_VER"
     compile "org.springframework:spring-context:$LIB_SPRING_FRAMEWORK_VER"
+    compile "org.springframework:spring-beans:$LIB_SPRING_FRAMEWORK_VER"
     compile "com.graphql-java:graphql-java:$LIB_JAVA_GRAPHQL_VER"
     compile "org.reflections:reflections:$LIB_JAVA_RELFECTIONS_VER"
     compile "org.apache.commons:commons-lang3:$LIB_APACHE_COMMON_LANG_VER"

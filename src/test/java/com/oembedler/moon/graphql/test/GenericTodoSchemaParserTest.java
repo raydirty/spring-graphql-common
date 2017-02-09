@@ -361,6 +361,7 @@ public class GenericTodoSchemaParserTest {
                 GraphQLQueryExecutor
                         .create(graphQLSchemaHolder)
                         .query(readClasspathResourceToString("selection-operation-call.query"))
+                        .operation("TodoQuery")
                         .execute();
 
         Assert.assertTrue(result.getErrors().size() == 0);

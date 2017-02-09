@@ -160,7 +160,7 @@ public class GraphQLSchemaDfsTraversal {
 
                         graphQLObjectType = GraphQLUnionType.newUnionType()
                                 .name(resolvableTypeAccessor.getName())
-                                .possibleTypes(possibleTypes.toArray(new GraphQLType[possibleTypes.size()]))
+                                .possibleTypes(possibleTypes.toArray(new GraphQLObjectType[possibleTypes.size()]))
                                 .typeResolver(new CompleteObjectTreeTypeResolver(objectTypeResolverMap))
                                 .description(resolvableTypeAccessor.getDescription())
                                 .build();

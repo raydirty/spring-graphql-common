@@ -97,8 +97,7 @@ public class StarWarsSchema {
         @GraphQLIgnore
         private List<Character> friends;
 
-        @Override
-        @GraphQLNonNull
+
         @GraphQLField("id")
         @GraphQLDescription("The id of the human.")
         public String getId() {
@@ -106,21 +105,18 @@ public class StarWarsSchema {
         }
 
         @Override
-        @GraphQLField("name")
         @GraphQLDescription("The name of the human.")
         public String getName() {
             return null;
         }
 
         @Override
-        @GraphQLField("friends")
         @GraphQLDescription("The friends of the human, or an empty list if they have none.")
         public List<Character> getFriends() {
             return null /** StarWarsData.getFriendsDataFetcher() **/;
         }
 
         @Override
-        @GraphQLField("appearsIn")
         @GraphQLDescription("Which movies they appear in.")
         public List<Episode> getAppearsIn() {
             return null;

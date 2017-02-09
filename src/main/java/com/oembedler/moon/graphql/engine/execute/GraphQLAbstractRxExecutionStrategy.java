@@ -32,13 +32,9 @@ import org.springframework.core.NestedRuntimeException;
 import org.springframework.expression.Expression;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import rx.Observable;
-import rx.observables.MathObservable;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Idea was borrowed from <a href="https://github.com/nfl/graphql-rxjava"></a>
@@ -144,47 +140,6 @@ abstract class GraphQLAbstractRxExecutionStrategy extends ExecutionStrategy {
     @Override
     protected ExecutionResult completeValueForScalar(GraphQLScalarType scalarType, Object result) {
         return new GraphQLRxExecutionResult(Observable.just(scalarType.getCoercing().serialize(result)), Observable.just(null), Observable.just(0.0));
-    }
-
-    @Override
-    protected ExecutionResult completeValueForList(ExecutionContext executionContext, GraphQLList fieldType, List<Field> fields, List<Object> result) {
-        Observable<List<ListTuple>> cachedObservable =
-                Observable.from(
-                        IntStream.range(0, result.size())
-                                .mapToObj(idx -> new ListTuple(idx, result.get(idx), null))
-                                .toArray(ListTuple[]::new)
-                )
-                        .flatMap(tuple -> {
-                            ExecutionResult executionResult = completeValue(executionContext, fieldType.getWrappedType(), fields, tuple.result);
-                            if (executionResult instanceof GraphQLRxExecutionResult) {
-                                return Observable.zip(Observable.just(tuple.index),
-                                        ((GraphQLRxExecutionResult) executionResult).getDataObservable(),
-                                        ((GraphQLRxExecutionResult) executionResult).getComplexityObservable(),
-                                        ListTuple::new);
-                            }
-                            return Observable.just(new ListTuple(tuple.index, executionResult.getData(), Observable.just(1.0)));
-                        })
-                        .toList()
-                        .cache();
-
-        Observable<?> resultObservable = cachedObservable
-                .map(listTuples -> {
-                    return listTuples.stream()
-                            .sorted(Comparator.comparingInt(x -> x.index))
-                            .map(x -> x.result)
-                            .collect(Collectors.toList());
-                });
-
-        Observable<?> complexityObservable = cachedObservable
-                .map(listTuples -> {
-                    return listTuples.stream()
-                            .sorted(Comparator.comparingInt(x -> x.index))
-                            .map(x -> x.complexity)
-                            .collect(Collectors.toList());
-                })
-                .flatMap(combined -> Observable.from(combined));
-
-        return new GraphQLRxExecutionResult(resultObservable, null, MathObservable.sumDouble((Observable<Double>) complexityObservable));
     }
 
     private class ListTuple {
